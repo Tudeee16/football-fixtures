@@ -6,6 +6,8 @@ import Spinner from "react-bootstrap/Spinner"
 import Alert from "react-bootstrap/Alert"
 import { getTeam, getNextEvents, getLastEvents } from "../api/sportsdb"
 import MatchCard from "../components/MatchCard"
+import Button from "react-bootstrap/Button"
+import { useFavorites } from "../hooks/useFavorites"
 
 function Team() {
     const { id } = useParams()
@@ -14,6 +16,7 @@ function Team() {
     const [lastMatches, setLastMatches] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
+    const { isFavorite, toggleFavorite } = useFavorites()
 
     useEffect(() => {
         async function loadTeam(){
@@ -81,6 +84,13 @@ if (error) {
                         {team.strLeague} &middot; {team.strCountry}
                     </p>
                     {team.strStadium && <p className="mb-0">Stadium: {team.strStadium}</p>}
+                    <Button
+                    className="mt-2"
+                            variant={isFavorite(team.idTeam) ? "outline-danger" : "primary"}
+                                onClick={() => toggleFavorite(team)}
+>
+                            {isFavorite(team.idTeam) ? "Remove from My Teams" : "Add to My Teams"}
+                        </Button>
                     </div>
                 </div>
                 {team.strDescriptionEN && (

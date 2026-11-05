@@ -29,10 +29,17 @@ function Search(){
             const results = await searchTeams(name)
             setTeams(results)
         }
-        catch(err){
-            setError(err.message)
-            setTeams([])
-        }
+      catch (err) {
+    if (err.message.includes("429")) {
+        setError("Too many requests. Please try again later.");
+    } else if (err.message === "Failed to fetch") {
+        setError("Could not connect to the sports database. Please check your internet connection or try again later.");
+    } else {
+        setError(err.message);
+    }
+
+    setTeams([]);
+}
         finally{
             setIsLoading(false)
             setHasSearched(true)
@@ -41,7 +48,7 @@ function Search(){
 
         return(
             <>
-                <h1 className="mb-4">Search for a football team</h1>
+                <h1 className="mb-4">Football Fixtures</h1>
                 <Form onSubmit={handleSubmit} className="d-flex gap-2 mb-4">
                     <Form.Label htmlFor="team-search" className="visually-hidden">
                     Team name
@@ -49,7 +56,7 @@ function Search(){
                     <Form.Control
                         id="team-search"
                         type="text"
-                        placeholder="Enter team name"
+                        placeholder="Enter a team name"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
             />
@@ -65,7 +72,7 @@ function Search(){
                 )}
                 {error && (
                     <Alert variant= "danger">
-                        Something went wrong: {error}. Please try again later.
+                        {error}.
 
                     </Alert>
                 )}
