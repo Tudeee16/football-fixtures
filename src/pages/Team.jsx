@@ -8,6 +8,7 @@ import { getTeam, getNextEvents, getLastEvents } from "../api/sportsdb"
 import MatchCard from "../components/MatchCard"
 import Button from "react-bootstrap/Button"
 import { useFavorites } from "../hooks/useFavorites"
+import TeamDescription from "../components/TeamDescription"
 
 function Team() {
     const { id } = useParams()
@@ -94,8 +95,8 @@ if (error) {
                     </div>
                 </div>
                 {team.strDescriptionEN && (
-                    <p className="mb-4">{team.strDescriptionEN.slice(0, 400)}</p>
-                )}
+                    <TeamDescription key={team.idTeam} text={team.strDescriptionEN} />
+                    )}
                 <Row>
                     <Col md={6}>
                         <h2 className="h4 mb-3">Next Matches</h2>
