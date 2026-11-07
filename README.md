@@ -21,3 +21,9 @@ Requirements Node.js 18 or newer.
 
     4. Open the address shown in terminal.
 
+
+   
+ ## Known limitations
+
+The free API has rate limits. If you search for too many teams in a short time, you may see an error message. Wait a short while and try again.
+
